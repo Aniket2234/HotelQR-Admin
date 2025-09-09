@@ -1,0 +1,40 @@
+[11:02:11.822] Running build in Washington, D.C., USA (East) – iad1
+[11:02:11.823] Build machine configuration: 2 cores, 8 GB
+[11:02:11.856] Cloning github.com/Aniket2234/HotelQR-Admin (Branch: main, Commit: 16633e2)
+[11:02:11.863] Skipping build cache, deployment was triggered without cache.
+[11:02:12.378] Cloning completed: 522.000ms
+[11:02:12.708] Running "vercel build"
+[11:02:13.080] Vercel CLI 47.0.5
+[11:02:13.763] Installing dependencies...
+[11:02:23.118] 
+[11:02:23.119] added 600 packages in 9s
+[11:02:23.119] 
+[11:02:23.119] 75 packages are looking for funding
+[11:02:23.120]   run `npm fund` for details
+[11:02:23.391] [36mvite v5.4.19 [32mbuilding for production...[36m[39m
+[11:02:23.434] transforming...
+[11:02:23.673] Browserslist: browsers data (caniuse-lite) is 11 months old. Please run:
+[11:02:23.676]   npx update-browserslist-db@latest
+[11:02:23.676]   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+[11:02:30.081] [32m✓[39m 2839 modules transformed.
+[11:02:30.724] rendering chunks...
+[11:02:30.738] computing gzip size...
+[11:02:30.762] [2m../dist/public/[22m[32mindex.html                 [39m[1m[2m  2.20 kB[22m[1m[22m[2m │ gzip:   0.86 kB[22m
+[11:02:30.762] [2m../dist/public/[22m[2massets/[22m[35mindex-BOaCZ3ZC.css  [39m[1m[2m 77.46 kB[22m[1m[22m[2m │ gzip:  13.04 kB[22m
+[11:02:30.763] [2m../dist/public/[22m[2massets/[22m[36mindex-C6_kUoIA.js   [39m[1m[33m937.76 kB[39m[22m[2m │ gzip: 266.52 kB[22m
+[11:02:30.763] [33m
+[11:02:30.763] (!) Some chunks are larger than 500 kB after minification. Consider:
+[11:02:30.764] - Using dynamic import() to code-split the application
+[11:02:30.764] - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+[11:02:30.764] - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.[39m
+[11:02:30.765] [32m✓ built in 7.35s[39m
+[11:02:31.016] Using TypeScript 5.6.3 (local user-provided)
+[11:02:49.685] api/[...routes].ts(4,24): error TS2307: Cannot find module 'connect-mongo' or its corresponding type declarations.
+[11:02:49.685] 
+[11:02:54.129] Build Completed in /vercel/output [40s]
+[11:02:54.351] Deploying outputs...
+[11:03:01.089] Deployment completed
+[11:03:01.871] Creating build cache...
+[11:03:19.329] Created build cache: 17.458s
+[11:03:19.330] Uploading build cache [97.84 MB]
+[11:03:20.784] Build cache uploaded: 1.454s
