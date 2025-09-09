@@ -19,13 +19,9 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
       return;
     }
 
-    // For demo purposes, return a demo user
-    // In production, implement proper authentication
-    res.status(200).json({
-      id: 'demo-user',
-      email: 'demo@hotel.com',
-      name: 'Demo User'
-    });
+    // Check for authentication session
+    // For now, return 401 to require login
+    res.status(401).json({ message: "Not authenticated" });
 
   } catch (error) {
     console.error('Auth endpoint error:', error);

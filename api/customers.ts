@@ -13,6 +13,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return;
     }
 
+    // Check authentication first
+    // For now, require login
+    res.status(401).json({ message: "Authentication required" });
+    return;
+    
     // For demo purposes, return demo customers
     // In production, implement proper database operations
     if (req.method === 'GET') {
