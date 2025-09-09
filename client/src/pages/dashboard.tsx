@@ -42,29 +42,37 @@ export default function Dashboard() {
     queryKey: ["/api/hotel"],
   });
 
-  // WebSocket connection for real-time updates
+  // WebSocket connection for real-time updates (development only)
   useEffect(() => {
-    if (hotel?.id) {
-      const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
-      const wsUrl = `${protocol}//${window.location.host}/ws`;
-      const ws = new WebSocket(wsUrl);
+    // Skip WebSocket connection in production/serverless environments
+    if (hotel?.id && window.location.hostname === 'localhost') {
+      try {
+        const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+        const wsUrl = `${protocol}//${window.location.host}/ws`;
+        const ws = new WebSocket(wsUrl);
 
-      ws.onopen = () => {
-        ws.send(JSON.stringify({ type: 'join_hotel', hotelId: hotel.id }));
-      };
+        ws.onopen = () => {
+          ws.send(JSON.stringify({ type: 'join_hotel', hotelId: hotel.id }));
+        };
 
-      ws.onmessage = (event) => {
-        const data = JSON.parse(event.data);
-        // Handle real-time updates here
-        // For now, we'll just log them
-        console.log('Real-time update:', data);
-      };
+        ws.onmessage = (event) => {
+          const data = JSON.parse(event.data);
+          // Handle real-time updates here
+          console.log('Real-time update:', data);
+        };
 
-      setSocket(ws);
+        ws.onerror = (error) => {
+          console.log('WebSocket connection failed (development only):', error);
+        };
 
-      return () => {
-        ws.close();
-      };
+        setSocket(ws);
+
+        return () => {
+          ws.close();
+        };
+      } catch (error) {
+        console.log('WebSocket not available in this environment');
+      }
     }
   }, [hotel?.id]);
 
