@@ -1,0 +1,73 @@
+/favicon.ico:1  Failed to load resource: the server responded with a status of 404 ()
+/api/room-types:1  Failed to load resource: the server responded with a status of 404 ()
+/api/available-rooms:1  Failed to load resource: the server responded with a status of 404 ()
+index-C6_kUoIA.js:343 WebSocket connection to 'wss://hotel-qr-admin-er5zadmur-aniket-ranes-projects.vercel.app/ws' failed: 
+(anonymous) @ index-C6_kUoIA.js:343
+_m @ index-C6_kUoIA.js:40
+Ws @ index-C6_kUoIA.js:40
+j4 @ index-C6_kUoIA.js:40
+co @ index-C6_kUoIA.js:40
+__ @ index-C6_kUoIA.js:40
+Za @ index-C6_kUoIA.js:38
+(anonymous) @ index-C6_kUoIA.js:40
+index-C6_kUoIA.js:40 RangeError: Invalid time value
+    at f9 (index-C6_kUoIA.js:317:45021)
+    at rM (index-C6_kUoIA.js:317:46274)
+    at Jc (index-C6_kUoIA.js:343:13047)
+    at iw (index-C6_kUoIA.js:38:16998)
+    at nN (index-C6_kUoIA.js:40:44030)
+    at eN (index-C6_kUoIA.js:40:39766)
+    at _4 (index-C6_kUoIA.js:40:39694)
+    at Vh (index-C6_kUoIA.js:40:39547)
+    at o0 (index-C6_kUoIA.js:40:35914)
+    at __ (index-C6_kUoIA.js:40:36717)
+Gg @ index-C6_kUoIA.js:40
+RC.r.callback @ index-C6_kUoIA.js:40
+i_ @ index-C6_kUoIA.js:38
+b_ @ index-C6_kUoIA.js:40
+QC @ index-C6_kUoIA.js:40
+b4 @ index-C6_kUoIA.js:40
+j4 @ index-C6_kUoIA.js:40
+co @ index-C6_kUoIA.js:40
+__ @ index-C6_kUoIA.js:40
+Za @ index-C6_kUoIA.js:38
+(anonymous) @ index-C6_kUoIA.js:40
+setTimeout
+i @ index-C6_kUoIA.js:48
+o @ index-C6_kUoIA.js:48
+batch @ index-C6_kUoIA.js:48
+xi @ index-C6_kUoIA.js:48
+setData @ index-C6_kUoIA.js:48
+onSuccess @ index-C6_kUoIA.js:48
+u @ index-C6_kUoIA.js:48
+index-C6_kUoIA.js:317 Uncaught RangeError: Invalid time value
+    at f9 (index-C6_kUoIA.js:317:45021)
+    at rM (index-C6_kUoIA.js:317:46274)
+    at Jc (index-C6_kUoIA.js:343:13047)
+    at iw (index-C6_kUoIA.js:38:16998)
+    at nN (index-C6_kUoIA.js:40:44030)
+    at eN (index-C6_kUoIA.js:40:39766)
+    at _4 (index-C6_kUoIA.js:40:39694)
+    at Vh (index-C6_kUoIA.js:40:39547)
+    at o0 (index-C6_kUoIA.js:40:35914)
+    at __ (index-C6_kUoIA.js:40:36717)
+f9 @ index-C6_kUoIA.js:317
+rM @ index-C6_kUoIA.js:317
+Jc @ index-C6_kUoIA.js:343
+iw @ index-C6_kUoIA.js:38
+nN @ index-C6_kUoIA.js:40
+eN @ index-C6_kUoIA.js:40
+_4 @ index-C6_kUoIA.js:40
+Vh @ index-C6_kUoIA.js:40
+o0 @ index-C6_kUoIA.js:40
+__ @ index-C6_kUoIA.js:40
+Za @ index-C6_kUoIA.js:38
+(anonymous) @ index-C6_kUoIA.js:40
+setTimeout
+i @ index-C6_kUoIA.js:48
+o @ index-C6_kUoIA.js:48
+batch @ index-C6_kUoIA.js:48
+xi @ index-C6_kUoIA.js:48
+setData @ index-C6_kUoIA.js:48
+onSuccess @ index-C6_kUoIA.js:48
+u @ index-C6_kUoIA.js:48
