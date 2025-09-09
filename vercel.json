@@ -2,11 +2,6 @@
   "buildCommand": "vite build",
   "outputDirectory": "dist/public",
   "framework": "vite",
-  "functions": {
-    "api/[...slug].ts": {
-      "runtime": "@vercel/node@2.15.10"
-    }
-  },
   "rewrites": [
     {
       "source": "/api/(.*)",
