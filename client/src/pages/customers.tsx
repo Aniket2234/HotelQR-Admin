@@ -205,7 +205,7 @@ export default function Customers() {
                           </div>
                         </TableCell>
                         <TableCell data-testid={`text-duration-${customer.id}`}>
-                          {calculateStayDuration(customer.checkinTime!.toString())}
+                          {calculateStayDuration(customer.checkinTime!)}
                         </TableCell>
                         <TableCell data-testid={`text-expected-stay-${customer.id}`}>
                           {customer.expectedStayDays ? `${customer.expectedStayDays} days` : "Not specified"}

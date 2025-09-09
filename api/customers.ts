@@ -24,7 +24,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           phone: '+1-234-567-8901',
           roomNumber: '101',
           roomType: 'Standard Single',
+          roomTypeName: 'Standard Single',
+          roomPrice: 2500,
           checkinTime: new Date().toISOString(),
+          isActive: true,
+          expectedStayDays: 3,
           hotelId: 'demo-hotel'
         }
       ]);
