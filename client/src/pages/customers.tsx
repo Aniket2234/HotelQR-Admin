@@ -16,6 +16,31 @@ import {
 import { Plus, Search, User, Phone, Mail, Bed, Calendar, MoreHorizontal, LogOut, QrCode } from "lucide-react";
 import { Customer } from "@shared/types";
 import { formatDistanceToNow, format } from "date-fns";
+
+// Safe date formatting functions
+const safeFormat = (dateValue: any, formatString: string) => {
+  try {
+    const date = new Date(dateValue);
+    if (isNaN(date.getTime())) {
+      return "Invalid date";
+    }
+    return format(date, formatString);
+  } catch (error) {
+    return "Invalid date";
+  }
+};
+
+const safeFormatDistanceToNow = (dateValue: any, options?: any) => {
+  try {
+    const date = new Date(dateValue);
+    if (isNaN(date.getTime())) {
+      return "Invalid date";
+    }
+    return formatDistanceToNow(date, options);
+  } catch (error) {
+    return "Invalid date";
+  }
+};
 import AddCustomerModal from "@/components/add-customer-modal";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
@@ -206,10 +231,10 @@ export default function Customers() {
                             <Calendar className="w-4 h-4 text-gray-400" />
                             <div>
                               <p className="text-sm" data-testid={`text-checkin-date-${customer.id}`}>
-                                {format(new Date(customer.checkinTime!), "MMM dd, yyyy")}
+                                {safeFormat(customer.checkinTime!, "MMM dd, yyyy")}
                               </p>
                               <p className="text-xs text-gray-500" data-testid={`text-checkin-time-${customer.id}`}>
-                                {format(new Date(customer.checkinTime!), "h:mm a")}
+                                {safeFormat(customer.checkinTime!, "h:mm a")}
                               </p>
                             </div>
                           </div>
@@ -318,10 +343,10 @@ export default function Customers() {
                         </TableCell>
                         <TableCell>{customer.roomNumber}</TableCell>
                         <TableCell>
-                          {format(new Date(customer.checkinTime!), "MMM dd, h:mm a")}
+                          {safeFormat(customer.checkinTime!, "MMM dd, h:mm a")}
                         </TableCell>
                         <TableCell>
-                          {customer.checkoutTime && format(new Date(customer.checkoutTime), "MMM dd, h:mm a")}
+                          {customer.checkoutTime && safeFormat(customer.checkoutTime, "MMM dd, h:mm a")}
                         </TableCell>
                         <TableCell>
                           {calculateStayDuration(customer.checkinTime!.toString(), customer.checkoutTime?.toString())}
