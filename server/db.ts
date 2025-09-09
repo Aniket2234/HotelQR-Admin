@@ -1,11 +1,23 @@
 import mongoose from 'mongoose';
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://abhijeet18012001:SCeJSjgqac7DmdS5@hotel.d1juzfe.mongodb.net/?retryWrites=true&w=majority&appName=Hotel';
+const MONGODB_URI = process.env.MONGODB_URI || process.env.DATABASE_URL;
+
+if (!MONGODB_URI) {
+  throw new Error('Please define the MONGODB_URI or DATABASE_URL environment variable');
+}
 
 // Connection function
 export async function connectDB() {
   try {
-    await mongoose.connect(MONGODB_URI);
+    if (mongoose.connection.readyState >= 1) {
+      return;
+    }
+    
+    await mongoose.connect(MONGODB_URI, {
+      maxPoolSize: 10,
+      serverSelectionTimeoutMS: 5000,
+      socketTimeoutMS: 45000,
+    });
     console.log('Connected to MongoDB successfully');
   } catch (error) {
     console.error('MongoDB connection error:', error);
