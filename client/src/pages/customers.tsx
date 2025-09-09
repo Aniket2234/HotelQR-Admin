@@ -65,16 +65,26 @@ export default function Customers() {
   const checkedOutCustomers = filteredCustomers.filter(customer => !customer.isActive);
 
   const calculateStayDuration = (checkinTime: string, checkoutTime?: string) => {
-    const checkin = new Date(checkinTime);
-    const checkout = checkoutTime ? new Date(checkoutTime) : new Date();
-    const diffInMs = checkout.getTime() - checkin.getTime();
-    const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
-    const diffInHours = Math.floor((diffInMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    
-    if (diffInDays > 0) {
-      return `${diffInDays} day${diffInDays > 1 ? 's' : ''} ${diffInHours}h`;
+    try {
+      const checkin = new Date(checkinTime);
+      const checkout = checkoutTime ? new Date(checkoutTime) : new Date();
+      
+      // Check if dates are valid
+      if (isNaN(checkin.getTime()) || isNaN(checkout.getTime())) {
+        return "Invalid date";
+      }
+      
+      const diffInMs = checkout.getTime() - checkin.getTime();
+      const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+      const diffInHours = Math.floor((diffInMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      
+      if (diffInDays > 0) {
+        return `${diffInDays} day${diffInDays > 1 ? 's' : ''} ${diffInHours}h`;
+      }
+      return `${diffInHours} hour${diffInHours > 1 ? 's' : ''}`;
+    } catch (error) {
+      return "Invalid date";
     }
-    return `${diffInHours} hour${diffInHours > 1 ? 's' : ''}`;
   };
 
   return (
@@ -205,7 +215,7 @@ export default function Customers() {
                           </div>
                         </TableCell>
                         <TableCell data-testid={`text-duration-${customer.id}`}>
-                          {calculateStayDuration(customer.checkinTime!)}
+                          {calculateStayDuration(customer.checkinTime!.toString())}
                         </TableCell>
                         <TableCell data-testid={`text-expected-stay-${customer.id}`}>
                           {customer.expectedStayDays ? `${customer.expectedStayDays} days` : "Not specified"}
