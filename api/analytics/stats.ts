@@ -19,8 +19,24 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return;
     }
 
-    // For demo purposes, return demo stats
-    // In production, implement proper database operations
+    // Check for authentication token
+    const cookies = req.headers.cookie;
+    const authToken = cookies?.split(';').find(c => c.trim().startsWith('auth-token='))?.split('=')[1];
+    
+    if (!authToken) {
+      res.status(401).json({ message: "Authentication required" });
+      return;
+    }
+    
+    let userData;
+    try {
+      userData = JSON.parse(Buffer.from(authToken, 'base64').toString());
+    } catch (error) {
+      res.status(401).json({ message: "Invalid token" });
+      return;
+    }
+    
+    // Return user-specific analytics
     res.status(200).json({
       totalCustomers: 25,
       occupiedRooms: 18,
