@@ -2,10 +2,21 @@
   "buildCommand": "vite build",
   "outputDirectory": "dist/public",
   "framework": "vite",
-  "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "/api/[...routes]"
+  "functions": {
+    "api/auth/user.ts": {
+      "maxDuration": 10
+    },
+    "api/hotel.ts": {
+      "maxDuration": 10
+    },
+    "api/customers.ts": {
+      "maxDuration": 10
+    },
+    "api/service-requests.ts": {
+      "maxDuration": 10
+    },
+    "api/analytics/stats.ts": {
+      "maxDuration": 10
     }
-  ]
+  }
 }
