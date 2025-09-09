@@ -26,6 +26,12 @@
     },
     "api/rooms.ts": {
       "maxDuration": 10
+    },
+    "api/login.ts": {
+      "maxDuration": 10
+    },
+    "api/register.ts": {
+      "maxDuration": 10
     }
   }
 }
