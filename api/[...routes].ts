@@ -5,7 +5,31 @@ import { insertHotelSchema, insertCustomerSchema, insertServiceRequestSchema, in
 import { z } from 'zod';
 import QRCode from 'qrcode';
 import mongoose from 'mongoose';
-import '../server/db'; // Initialize database connection
+
+// Database initialization function for serverless
+async function initializeDatabase() {
+  try {
+    if (mongoose.connection.readyState >= 1) {
+      return; // Already connected
+    }
+    
+    const MONGODB_URI = process.env.MONGODB_URI;
+    if (!MONGODB_URI) {
+      console.warn('No MONGODB_URI environment variable set. Some features may not work.');
+      return;
+    }
+    
+    await mongoose.connect(MONGODB_URI, {
+      maxPoolSize: 10,
+      serverSelectionTimeoutMS: 5000,
+      socketTimeoutMS: 45000,
+    });
+    console.log('Connected to MongoDB successfully');
+  } catch (error) {
+    console.error('MongoDB connection error:', error);
+    // Don't throw - let the app work with limited functionality
+  }
+}
 
 // Utility function to validate ObjectId
 function isValidObjectId(id: string): boolean {
@@ -30,9 +54,14 @@ const createApp = () => {
 
   // Auth routes
   app.get('/api/auth/user', (req: any, res) => {
-    // For demo purposes, return a demo user
-    // In production, implement proper authentication
-    res.json({ id: 'demo-user', email: 'demo@hotel.com', name: 'Demo User' });
+    try {
+      // For demo purposes, return a demo user
+      // In production, implement proper authentication
+      res.json({ id: 'demo-user', email: 'demo@hotel.com', name: 'Demo User' });
+    } catch (error) {
+      console.error('Auth endpoint error:', error);
+      res.status(500).json({ message: 'Authentication service unavailable' });
+    }
   });
 
   // Hotel routes
@@ -120,6 +149,9 @@ let app: express.Express;
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
+    // Initialize database connection for serverless
+    await initializeDatabase();
+    
     // Initialize app if not already done
     if (!app) {
       app = createApp();
