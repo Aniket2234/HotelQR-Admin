@@ -12,6 +12,19 @@ import {
 } from "lucide-react";
 import { ServiceRequest } from "@shared/types";
 import { formatDistanceToNow } from "date-fns";
+
+// Safe date formatting function
+const safeFormatDistanceToNow = (dateValue: any, options?: any) => {
+  try {
+    const date = new Date(dateValue);
+    if (isNaN(date.getTime())) {
+      return "Invalid date";
+    }
+    return formatDistanceToNow(date, options);
+  } catch (error) {
+    return "Invalid date";
+  }
+};
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
@@ -172,7 +185,7 @@ export default function ServiceRequestCard({ request }: ServiceRequestCardProps)
                   className="text-xs text-gray-500"
                   data-testid={`text-request-time-${request.id}`}
                 >
-                  {formatDistanceToNow(new Date(request.requestedAt), { addSuffix: true })}
+                  {safeFormatDistanceToNow(request.requestedAt, { addSuffix: true })}
                 </span>
               </div>
             </div>

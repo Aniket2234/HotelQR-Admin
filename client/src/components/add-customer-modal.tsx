@@ -262,7 +262,15 @@ export default function AddCustomerModal({ open, onOpenChange }: AddCustomerModa
                   )}
                   <div className="flex items-center space-x-2 md:col-span-2">
                     <Calendar className="w-4 h-4 text-gray-400" />
-                    <span>Check-in: {format(new Date(successData.checkinTime!), "MMM dd, yyyy 'at' h:mm a")}</span>
+                    <span>Check-in: {(() => {
+                      try {
+                        const date = new Date(successData.checkinTime!);
+                        if (isNaN(date.getTime())) return "Invalid date";
+                        return format(date, "MMM dd, yyyy 'at' h:mm a");
+                      } catch {
+                        return "Invalid date";
+                      }
+                    })()}</span>
                   </div>
                 </div>
               </CardContent>

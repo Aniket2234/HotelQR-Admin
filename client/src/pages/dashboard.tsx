@@ -12,6 +12,19 @@ import ServiceRequestCard from "@/components/service-request-card";
 import { Customer, ServiceRequest, Hotel } from "@shared/types";
 import { formatDistanceToNow } from "date-fns";
 
+// Safe date formatting function
+const safeFormatDistanceToNow = (dateValue: any, options?: any) => {
+  try {
+    const date = new Date(dateValue);
+    if (isNaN(date.getTime())) {
+      return "Invalid date";
+    }
+    return formatDistanceToNow(date, options);
+  } catch (error) {
+    return "Invalid date";
+  }
+};
+
 interface HotelStats {
   totalCustomers: number;
   activeCustomers: number;
@@ -190,7 +203,7 @@ export default function Dashboard() {
                               className="text-xs text-gray-500"
                               data-testid={`text-checkin-time-${customer.id}`}
                             >
-                              {formatDistanceToNow(new Date(customer.checkinTime), { addSuffix: true })}
+                              {safeFormatDistanceToNow(customer.checkinTime, { addSuffix: true })}
                             </p>
                           </div>
                         </div>
