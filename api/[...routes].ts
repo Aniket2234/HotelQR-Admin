@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import express from 'express';
-import { storage } from '../server/storage';
+// Lazy import storage to avoid early database connection issues
+let storage: any;
 import { insertHotelSchema, insertCustomerSchema, insertServiceRequestSchema, insertRoomTypeSchema, insertRoomSchema, insertAdminServiceSchema } from '@shared/types';
 import { z } from 'zod';
 import QRCode from 'qrcode';
@@ -151,6 +152,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     // Initialize database connection for serverless
     await initializeDatabase();
+    
+    // Lazy load storage after database is connected
+    if (!storage) {
+      const storageModule = await import('../server/storage');
+      storage = storageModule.storage;
+    }
     
     // Initialize app if not already done
     if (!app) {

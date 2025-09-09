@@ -25,7 +25,7 @@ import {
   type InsertAdminService,
   insertRoomTypeSchema,
 } from "@shared/types";
-import "./db"; // Initialize MongoDB connection
+// MongoDB connection is handled separately in serverless environment
 import mongoose from "mongoose";
 
 // Interface for storage operations
