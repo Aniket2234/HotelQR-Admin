@@ -17,6 +17,15 @@
     },
     "api/analytics/stats.ts": {
       "maxDuration": 10
+    },
+    "api/room-types.ts": {
+      "maxDuration": 10
+    },
+    "api/available-rooms.ts": {
+      "maxDuration": 10
+    },
+    "api/rooms.ts": {
+      "maxDuration": 10
     }
   }
 }

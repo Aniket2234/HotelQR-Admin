@@ -52,7 +52,7 @@ export default function AddCustomerModal({ open, onOpenChange }: AddCustomerModa
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      checkinTime: new Date(new Date().getTime() + (5.5 * 60 * 60 * 1000)).toISOString().slice(0, 16),
+      checkinTime: new Date(new Date().getTime() + (5.5 * 60 * 60 * 1000)).toISOString().slice(0, 19),
       isActive: true,
       name: '',
       phone: '',
@@ -76,7 +76,7 @@ export default function AddCustomerModal({ open, onOpenChange }: AddCustomerModa
         ...data,
         roomTypeName: selectedRoomType.name,
         roomPrice: selectedRoomType.price,
-        checkinTime: data.checkinTime ? new Date(data.checkinTime) : new Date(new Date().getTime() + (5.5 * 60 * 60 * 1000)),
+        checkinTime: data.checkinTime ? new Date(data.checkinTime).toISOString() : new Date(new Date().getTime() + (5.5 * 60 * 60 * 1000)).toISOString(),
       };
       
       const response = await apiRequest("POST", "/api/customers", customerData);
