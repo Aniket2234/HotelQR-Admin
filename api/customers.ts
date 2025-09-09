@@ -13,13 +13,24 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return;
     }
 
-    // Check authentication first
-    // For now, require login
-    res.status(401).json({ message: "Authentication required" });
-    return;
+    // Check for authentication token
+    const cookies = req.headers.cookie;
+    const authToken = cookies?.split(';').find(c => c.trim().startsWith('auth-token='))?.split('=')[1];
     
-    // For demo purposes, return demo customers
-    // In production, implement proper database operations
+    if (!authToken) {
+      res.status(401).json({ message: "Authentication required" });
+      return;
+    }
+    
+    let userData;
+    try {
+      userData = JSON.parse(Buffer.from(authToken, 'base64').toString());
+    } catch (error) {
+      res.status(401).json({ message: "Invalid token" });
+      return;
+    }
+    
+    // Return user-specific customer data
     if (req.method === 'GET') {
       res.status(200).json([
         {
@@ -34,7 +45,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           checkinTime: new Date().toISOString(),
           isActive: true,
           expectedStayDays: 3,
-          hotelId: 'demo-hotel'
+          hotelId: userData.hotelId
         }
       ]);
     } else if (req.method === 'POST') {

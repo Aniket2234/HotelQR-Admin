@@ -19,9 +19,21 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
       return;
     }
 
-    // Check for authentication session
-    // For now, return 401 to require login
-    res.status(401).json({ message: "Not authenticated" });
+    // Check for authentication token in cookies
+    const cookies = req.headers.cookie;
+    const authToken = cookies?.split(';').find(c => c.trim().startsWith('auth-token='))?.split('=')[1];
+    
+    if (authToken) {
+      try {
+        // Decode the token (in production, verify JWT properly)
+        const userData = JSON.parse(Buffer.from(authToken, 'base64').toString());
+        res.status(200).json(userData);
+      } catch (error) {
+        res.status(401).json({ message: "Invalid token" });
+      }
+    } else {
+      res.status(401).json({ message: "Not authenticated" });
+    }
 
   } catch (error) {
     console.error('Auth endpoint error:', error);

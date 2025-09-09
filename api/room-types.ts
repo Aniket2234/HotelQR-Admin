@@ -13,13 +13,24 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return;
     }
 
-    // Check authentication first
-    // For now, require login
-    res.status(401).json({ message: "Authentication required" });
-    return;
+    // Check for authentication token
+    const cookies = req.headers.cookie;
+    const authToken = cookies?.split(';').find(c => c.trim().startsWith('auth-token='))?.split('=')[1];
     
-    // For demo purposes, return demo room types
-    // In production, implement proper database operations
+    if (!authToken) {
+      res.status(401).json({ message: "Authentication required" });
+      return;
+    }
+    
+    let userData;
+    try {
+      userData = JSON.parse(Buffer.from(authToken, 'base64').toString());
+    } catch (error) {
+      res.status(401).json({ message: "Invalid token" });
+      return;
+    }
+    
+    // Return user-specific room types
     if (req.method === 'GET') {
       res.status(200).json([
         {
@@ -29,7 +40,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           price: 2500,
           available: 8,
           total: 10,
-          hotelId: 'demo-hotel'
+          hotelId: userData.hotelId
         },
         {
           id: 'room-type-2',
@@ -38,7 +49,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           price: 4500,
           available: 5,
           total: 8,
-          hotelId: 'demo-hotel'
+          hotelId: userData.hotelId
         },
         {
           id: 'room-type-3',
@@ -47,7 +58,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           price: 8500,
           available: 2,
           total: 3,
-          hotelId: 'demo-hotel'
+          hotelId: userData.hotelId
         }
       ]);
     } else if (req.method === 'POST') {

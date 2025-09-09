@@ -19,22 +19,33 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return;
     }
 
-    const { email, password } = req.body;
+    const { username, password } = req.body;
 
-    // For demo purposes, accept any credentials
-    // In production, implement proper authentication
-    if (email && password) {
+    // For demo purposes, accept any valid credentials
+    // In production, implement proper database authentication
+    if (username && password && username.length > 0 && password.length > 0) {
+      const userData = {
+        id: `user-${username}`,
+        username: username,
+        email: `${username}@hotel.com`,
+        name: username.charAt(0).toUpperCase() + username.slice(1),
+        hotelName: `${username}'s Hotel`,
+        hotelId: `hotel-${username}`
+      };
+      
+      // Create a simple token (in production, use proper JWT)
+      const token = Buffer.from(JSON.stringify(userData)).toString('base64');
+      
+      // Set cookie for authentication
+      res.setHeader('Set-Cookie', `auth-token=${token}; HttpOnly; Path=/; Max-Age=604800`);
+      
       res.status(200).json({
         message: 'Login successful',
-        user: {
-          id: 'demo-user',
-          email: email,
-          name: 'Demo User'
-        },
-        token: 'demo-token-' + Date.now()
+        user: userData,
+        success: true
       });
     } else {
-      res.status(400).json({ message: 'Email and password required' });
+      res.status(400).json({ message: 'Username and password required' });
     }
 
   } catch (error) {

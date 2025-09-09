@@ -13,25 +13,41 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return;
     }
 
-    // For demo purposes, return a demo hotel
-    // In production, implement proper database operations
+    // Check for authentication token
+    const cookies = req.headers.cookie;
+    const authToken = cookies?.split(';').find(c => c.trim().startsWith('auth-token='))?.split('=')[1];
+    
+    if (!authToken) {
+      res.status(401).json({ message: "Authentication required" });
+      return;
+    }
+    
+    let userData;
+    try {
+      userData = JSON.parse(Buffer.from(authToken, 'base64').toString());
+    } catch (error) {
+      res.status(401).json({ message: "Invalid token" });
+      return;
+    }
+    
+    // Return user-specific hotel data
     if (req.method === 'GET') {
       res.status(200).json({
-        id: 'demo-hotel',
-        name: 'Demo Hotel',
-        address: '123 Demo Street',
+        id: userData.hotelId,
+        name: userData.hotelName,
+        address: '123 Hotel Street',
         phone: '+1-234-567-8900',
-        email: 'contact@demohotel.com',
-        ownerId: 'demo-user'
+        email: userData.email,
+        ownerId: userData.id
       });
     } else if (req.method === 'POST') {
       res.status(201).json({
-        id: 'demo-hotel',
-        name: req.body.name || 'Demo Hotel',
-        address: req.body.address || '123 Demo Street',
+        id: userData.hotelId,
+        name: req.body.name || userData.hotelName,
+        address: req.body.address || '123 Hotel Street',
         phone: req.body.phone || '+1-234-567-8900',
-        email: req.body.email || 'contact@demohotel.com',
-        ownerId: 'demo-user'
+        email: req.body.email || userData.email,
+        ownerId: userData.id
       });
     } else {
       res.status(405).json({ message: 'Method not allowed' });

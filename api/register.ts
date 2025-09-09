@@ -19,27 +19,38 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return;
     }
 
-    const { email, password, hotelName, address, phone } = req.body;
+    const { username, password, email, hotelName, address, phone } = req.body;
 
-    // For demo purposes, accept any registration
-    // In production, implement proper validation and user creation
-    if (email && password && hotelName) {
+    // For demo purposes, accept any valid registration
+    // In production, implement proper validation, hashing, and database storage
+    if (username && password && hotelName && username.length > 0 && password.length > 0) {
+      const userData = {
+        id: `user-${username}`,
+        username: username,
+        email: email || `${username}@hotel.com`,
+        name: username.charAt(0).toUpperCase() + username.slice(1),
+        hotelName: hotelName,
+        hotelId: `hotel-${username}`
+      };
+      
+      // Create a simple token (in production, use proper JWT)
+      const token = Buffer.from(JSON.stringify(userData)).toString('base64');
+      
+      // Set cookie for authentication
+      res.setHeader('Set-Cookie', `auth-token=${token}; HttpOnly; Path=/; Max-Age=604800`);
+      
       res.status(201).json({
         message: 'Registration successful',
-        user: {
-          id: 'demo-user',
-          email: email,
-          name: 'Demo User'
-        },
+        user: userData,
         hotel: {
-          id: 'demo-hotel',
+          id: `hotel-${username}`,
           name: hotelName,
-          address: address || '123 Demo Street',
+          address: address || '123 Hotel Street',
           phone: phone || '+1-234-567-8900',
-          email: email,
-          ownerId: 'demo-user'
+          email: email || `${username}@hotel.com`,
+          ownerId: `user-${username}`
         },
-        token: 'demo-token-' + Date.now()
+        success: true
       });
     } else {
       res.status(400).json({ message: 'Email, password, and hotel name are required' });
