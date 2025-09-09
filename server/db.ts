@@ -1,14 +1,24 @@
 import mongoose from 'mongoose';
 
-const MONGODB_URI = process.env.MONGODB_URI || process.env.DATABASE_URL;
-
-if (!MONGODB_URI) {
-  throw new Error('Please define the MONGODB_URI or DATABASE_URL environment variable');
-}
+// For development in Replit, use a local MongoDB connection or skip database initialization
+// For production/Vercel, use environment variable
+const MONGODB_URI = process.env.MONGODB_URI || 
+                   (process.env.NODE_ENV === 'production' 
+                     ? undefined 
+                     : 'mongodb+srv://abhijeet18012001:SCeJSjgqac7DmdS5@hotel.d1juzfe.mongodb.net/?retryWrites=true&w=majority&appName=Hotel');
 
 // Connection function
 export async function connectDB() {
   try {
+    if (!MONGODB_URI) {
+      if (process.env.NODE_ENV === 'production') {
+        throw new Error('MONGODB_URI environment variable is required for production');
+      } else {
+        console.warn('No MongoDB URI configured. Database operations will be disabled.');
+        return;
+      }
+    }
+
     if (mongoose.connection.readyState >= 1) {
       return;
     }
@@ -21,7 +31,11 @@ export async function connectDB() {
     console.log('Connected to MongoDB successfully');
   } catch (error) {
     console.error('MongoDB connection error:', error);
-    throw error;
+    if (process.env.NODE_ENV === 'production') {
+      throw error;
+    } else {
+      console.warn('Database connection failed in development mode. Continuing without database.');
+    }
   }
 }
 
